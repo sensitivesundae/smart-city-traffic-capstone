@@ -5,3 +5,15 @@
 2026-11-22 21:54:28,528 - INFO - Impossible values (0 Kelvin, >9000mm rain) converted to NaN.
 2026-11-22 21:54:28,610 - INFO - Imputation complete using monthly medians.
 2026-11-22 21:54:28,611 - INFO - Pipeline finished successfully.
+2026-11-22 22:28:02,734 - INFO - Starting data pipeline.
+2026-11-22 22:28:02,759 - INFO - Successfully loaded data with 48204 rows and 9 columns.
+2026-11-22 22:28:02,759 - INFO - Schema validation passed. All expected columns are present.
+2026-11-22 22:28:02,805 - INFO - Removed 17 duplicate rows.
+2026-11-22 22:28:02,806 - INFO - Impossible values (0 Kelvin, >9000mm rain) converted to NaN.
+2026-11-22 22:28:02,825 - INFO - Imputation complete using monthly medians.
+2026-11-22 22:28:02,825 - INFO - Passing cleaned data to Feature Engineering...
+2026-11-22 22:28:02,825 - INFO - Starting feature engineering. Initial dataset shape: 48187 rows, 9 columns.
+2026-11-22 22:28:02,837 - DEBUG - Intermediate calculation - Temp Min: 243.39, Temp Max: 310.07
+2026-11-22 22:28:02,837 - DEBUG - Intermediate calculation - Clouds Min: 0, Clouds Max: 100
+2026-11-22 22:28:02,843 - INFO - Feature engineering complete. Final dataset shape: 48187 rows, 28 columns.
+2026-11-22 22:28:02,843 - INFO - Pipeline finished successfully.
