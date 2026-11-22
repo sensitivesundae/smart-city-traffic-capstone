@@ -1,0 +1,7 @@
+2026-11-22 21:54:28,251 - INFO - Starting data pipeline.
+2026-11-22 21:54:28,346 - INFO - Successfully loaded data with 48204 rows and 9 columns.
+2026-11-22 21:54:28,346 - INFO - Schema validation passed. All expected columns are present.
+2026-11-22 21:54:28,524 - INFO - Removed 17 duplicate rows.
+2026-11-22 21:54:28,528 - INFO - Impossible values (0 Kelvin, >9000mm rain) converted to NaN.
+2026-11-22 21:54:28,610 - INFO - Imputation complete using monthly medians.
+2026-11-22 21:54:28,611 - INFO - Pipeline finished successfully.
