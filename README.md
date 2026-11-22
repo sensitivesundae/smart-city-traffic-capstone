@@ -12,3 +12,8 @@ The target variable `traffic_category` is created using the following data-drive
 *   **Low:** < 4,500 vehicles per hour
 *   **Medium:** 4,500 to 5,500 vehicles per hour
 *   **High:** > 5,500 vehicles per hour
+
+## Task 3: Visualisation Interpretations
+1. **Traffic demand by hour:** Traffic volume follows a bimodal (two-peak) pattern, sharply rising around 7-8 AM and again at 4-5 PM, which perfectly aligns with standard morning and evening commuting hours. Volume drops to its lowest between midnight and 4 AM.
+2. **Weekday vs. weekend traffic:** Weekdays have a significantly higher average traffic volume than weekends. This confirms that the primary driver of traffic in this dataset is work-related commuting rather than leisure travel.
+3. **Temperature vs. traffic:** There is no strong linear relationship. However, the highest traffic volumes cluster around mild temperatures (10°C to 30°C). Extreme cold (below -10°C) tends to have lower traffic, likely due to travel disruptions or people staying home.
