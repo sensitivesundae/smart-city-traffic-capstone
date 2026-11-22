@@ -1,8 +1,14 @@
-### Feature Engineering Logic
-*   **Cyclical Encoding:** `hour_sin` and `hour_cos` are used to capture the circular nature of time (so hour 23 and hour 0 are mathematically close).
-*   **Weather Encoding:** One-Hot Encoding is applied to `weather_main` to make it ML-ready. `is_raining` and `is_snowing` are boolean flags created from rainfall/snowfall columns.
-*   **Normalisation:** Min-Max scaling is applied to `temp` and `clouds_all` so values are bounded between 0 and 1.
-*   **Target Definition:** The `traffic_category` target is created as follows:
-    *   **Low:** < 4,500 vehicles/hour
-    *   **Medium:** 4,500 - 5,500 vehicles/hour
-    *   **High:** > 5,500 vehicles/hour
+## Feature Engineering Logic & Target Definition
+
+### 1. Time & Weather Features
+*   **Cyclical Encoding:** `hour_sin` and `hour_cos` are applied to the 'Hour' feature to capture the circular nature of time (so hour 23 is mathematically close to hour 0).
+*   **Weather Encoding:** One-Hot Encoding (`pd.get_dummies`) is applied to `weather_main`. Additionally, binary indicators `is_raining` and `is_snowing` are created based on whether the `rain_1h` or `snow_1h` columns are greater than 0.
+
+### 2. Normalisation
+*   Min-Max scaling is applied to `temp` and `clouds_all` to bring their values between 0 and 1, making them ML-ready.
+
+### 3. Traffic Target Definition
+The target variable `traffic_category` is created using the following data-driven logic based on hourly vehicle volume:
+*   **Low:** < 4,500 vehicles per hour
+*   **Medium:** 4,500 to 5,500 vehicles per hour
+*   **High:** > 5,500 vehicles per hour
