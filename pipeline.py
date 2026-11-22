@@ -7,7 +7,7 @@ import logging
 # ==========================================
 logging.basicConfig(
     filename='pipeline.log', 
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
