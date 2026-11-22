@@ -1,20 +1,21 @@
 import pandas as pd
 import numpy as np
 import logging
+# NEW: Import the feature engineering function
+from feature_engineering import engineer_features 
 
 # ==========================================
 # Task 1: Mandatory Logging Configuration
 # ==========================================
 logging.basicConfig(
     filename='pipeline.log', 
-    level=logging.DEBUG,
+    level=logging.DEBUG,  # Changed to DEBUG so we can see the intermediate values!
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
 def run_pipeline():
     logging.info("Starting data pipeline.")
     
-    # Update this path if you move the CSV file!
     file_path = r'C:\Users\Lina\OneDrive\nus ai\capstone\Metro_Interstate_Traffic_Volume.csv'
 
     # ==========================================
@@ -50,19 +51,14 @@ def run_pipeline():
     # ==========================================
     # 3. Clean the data
     # ==========================================
-    # Standardise categorical values
     df['weather_main'] = df['weather_main'].str.lower().str.strip()
     df['holiday'] = df['holiday'].str.lower().str.strip()
-    
-    # Parse date/time
     df['date_time'] = pd.to_datetime(df['date_time'], errors='coerce')
     
-    # Remove duplicates
     initial_len = len(df)
     df = df.drop_duplicates()
     logging.info(f"Removed {initial_len - len(df)} duplicate rows.")
 
-    # Detect impossible outliers and replace with NaN
     df.loc[df['temp'] <= 0, 'temp'] = np.nan 
     df.loc[df['rain_1h'] > 9000, 'rain_1h'] = np.nan 
     logging.info("Impossible values (0 Kelvin, >9000mm rain) converted to NaN.")
@@ -71,27 +67,26 @@ def run_pipeline():
     # 4. Use conditionals and loops (Imputation by Month)
     # ==========================================
     df['month'] = df['date_time'].dt.month
-
     for month in range(1, 13):
         month_condition = df['month'] == month
-        
-        # Calculate medians for the specific month
         month_temp_median = df.loc[month_condition, 'temp'].median()
         month_rain_median = df.loc[month_condition, 'rain_1h'].median()
-        
-        # Impute missing values for that month
         df.loc[month_condition, 'temp'] = df.loc[month_condition, 'temp'].fillna(month_temp_median)
         df.loc[month_condition, 'rain_1h'] = df.loc[month_condition, 'rain_1h'].fillna(month_rain_median)
 
     df = df.drop(columns=['month'])
     logging.info("Imputation complete using monthly medians.")
-    logging.info("Pipeline finished successfully.")
     
-    return df
+    # ==========================================
+    # NEW: Call Feature Engineering
+    # ==========================================
+    logging.info("Passing cleaned data to Feature Engineering...")
+    final_df = engineer_features(df)
+    
+    logging.info("Pipeline finished successfully.")
+    return final_df
 
 if __name__ == "__main__":
     cleaned_data = run_pipeline()
     if cleaned_data is not None:
         print("Pipeline ran successfully. Check pipeline.log for details.")
-        # Optional: Save the cleaned data to a new CSV
-        # cleaned_data.to_csv('cleaned_traffic_data.csv', index=False)
