@@ -9,7 +9,7 @@ from feature_engineering import engineer_features
 # ==========================================
 logging.basicConfig(
     filename='pipeline.log', 
-    level=logging.DEBUG,  # Changed to DEBUG so we can see the intermediate values!
+    level=logging.INFO,  
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
