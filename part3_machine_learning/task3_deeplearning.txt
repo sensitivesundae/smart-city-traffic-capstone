@@ -1,1 +1,4 @@
+Justification for the Explainability Choice (Proxy Model + SHAP):
+While LSTMs are powerful for time-series forecasting, applying SHAP directly to a 3D sequential neural network (DeepSHAP) is computationally heavy and yields explanations that are difficult for humans to interpret (e.g., "Hour 3 steps ago").
 
+To provide meaningful, interpretable insights, a Random Forest Regressor proxy model was trained on the exact same feature set and target as the LSTM. SHAP (SHapley Additive exPlanations) was chosen over LIME because SHAP provides mathematically consistent, global feature importance based on cooperative game theory, whereas LIME only provides unstable local approximations. Using TreeSHAP on the Random Forest allowed us to extract exact, human-readable insights into what drives traffic demand.
