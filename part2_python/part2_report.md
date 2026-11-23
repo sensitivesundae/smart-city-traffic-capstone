@@ -1,1 +1,14 @@
+# Part 2: Python Data Pipeline and Application Report
 
+## 1. Methodology
+The objective of Part 2 was to build a robust Python data pipeline, engineer features for machine learning, generate visualizations, and create a command-line interface (CLI) application.
+
+*   **Data Pipeline & Logging (`pipeline.py`):** The pipeline was built using `pandas`. It begins by loading the raw CSV using `try/except` blocks to handle file errors gracefully. It validates the schema, standardizes text fields, and removes duplicates. Using conditionals and loops, it detects impossible values (e.g., 0 Kelvin) and replaces them with `NaN`, then imputes them using the monthly median. We configured the Python `logging` module to record every step. The logger is configured with both a File Handler (`pipeline.log`) and a Console Handler, using a format that includes timestamps, log levels, and module names. `print()` statements were strictly avoided for internal status reporting.
+*   **Feature Engineering (`feature_engineering.py`):** The cleaned data is passed to this module. We created time-based features (Hour, Day of Week, Weekend indicator) and applied cyclical encoding (`hour_sin`, `hour_cos`) to capture the circular nature of time. Weather indicators (`is_raining`, `is_snowing`) were created, and categorical weather was one-hot encoded. Finally, continuous variables (`temp`, `clouds_all`) were normalised using Min-Max scaling, and a data-driven `traffic_category` target was created based on volume quantiles.
+*   **Visualizations (`visualizations.py`):** Using Matplotlib and Seaborn, we generated three distinct charts to reveal traffic patterns. Each chart is automatically saved to the `figures/` directory, and an INFO log is generated for each saved file path.
+*   **CLI Mini-Application (`mini_app/app.py`):** A command-line tool was built using `argparse`. It allows users to query the dataset using three commands: `query-date`, `high-traffic`, and `compare-weekend`. It uses the logging module to record invoked commands and uses `print()` exclusively for direct user output and error handling (like malformed dates).
+
+## 2. Findings
+*   **Traffic Patterns:** The visualizations revealed a distinct bimodal pattern in hourly traffic, peaking at 7-8 AM and 4-5 PM, confirming that human commuting schedules are the primary driver of congestion. Weekday traffic is significantly higher than weekend traffic.
+*   **Weather Impact:** While extreme weather (like snow) reduces overall traffic volume, mild weather conditions see the highest traffic. Temperature has a very weak positive correlation with traffic volume.
+*   **Pipeline Reliability:** The pipeline successfully processed over 48,000 rows, demonstrating that the logging framework accurately tracked normal milestones (INFO), recoverable events like dropped duplicates or imputed values (WARNING), and intermediate calculations (DEBUG).
