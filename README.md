@@ -1,3 +1,36 @@
+## Task 5: Reproducibility & Project Structure
+
+### Project Structure
+*   `part2_python/`
+    *   `pipeline.py`: Main entry point for data loading, cleaning, and orchestration.
+    *   `feature_engineering.py`: Module containing functions to create ML features (time, weather, normalisation).
+    *   `visualizations.py`: Module containing functions to generate Matplotlib/Seaborn charts.
+    *   `run_visualizations.py`: Entry point script to run the visualization module.
+    *   `mini_app/`: Contains the command-line application (`app.py`) for querying the dataset.
+    *   `figures/`: Directory where generated `.png` charts are saved.
+    *   `pipeline.log`, `visualizations.log`, `mini_app/app.log`: Log files.
+
+### How to Run
+1.  Ensure you have the required libraries: `pip install pandas numpy matplotlib seaborn`
+2.  Update the `file_path` variable in `pipeline.py` and `run_visualizations.py` to point to your local CSV file.
+3.  Run the data pipeline: `python pipeline.py`
+4.  Generate visualizations: `python run_visualizations.py`
+5.  Run the CLI app (example): `python mini_app/app.py compare-weekend`
+
+### Logging Configuration
+We use Python's built-in `logging` module to track system events.
+*   **Where logs are written:**
+    *   `pipeline.log`: Records data loading, cleaning, and feature engineering.
+    *   `visualizations.log`: Records chart generation and file saving.
+    *   `mini_app/app.log`: Records CLI commands and user input errors.
+    *   *All logs are also printed to the console for real-time monitoring (except the CLI app, which prints outputs directly to the user).*
+*   **Log Level Meanings:**
+    *   `DEBUG`: Fine-grained internal values (e.g., min/max values calculated during normalisation).
+    *   `INFO`: Normal milestones (e.g., data loaded, step completed, file saved).
+    *   `WARNING`: Recoverable issues (e.g., duplicate rows dropped, missing values imputed).
+    *   `ERROR`: A failure that prevents the pipeline from continuing (e.g., file not found, malformed user input).
+
+
 ## Feature Engineering Logic & Target Definition
 
 ### 1. Time & Weather Features
