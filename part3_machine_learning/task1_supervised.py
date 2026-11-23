@@ -1,3 +1,8 @@
+import logging
+import sys
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stdout)
+
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
