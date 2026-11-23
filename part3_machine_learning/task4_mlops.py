@@ -26,6 +26,8 @@ y = df['traffic_volume']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# This FORCES MLflow to create the 'mlruns' folder right next to this script
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("Traffic_Volume_Experiments")
 
 logger.info("Running Experiment A...")
@@ -38,7 +40,9 @@ with mlflow.start_run(run_name="RF_50_Trees"):
     
     mlflow.log_param("n_estimators", n_est)
     mlflow.log_metric("MAE", mae_a)
-    mlflow.sklearn.log_model(rf_a, "model")
+    
+    # THE FIX: We tell MLflow to use "pickle" instead of the buggy "skops" format
+    mlflow.sklearn.log_model(sk_model=rf_a, name="model", serialization_format="pickle")
 
 logger.info("Running Experiment B...")
 with mlflow.start_run(run_name="RF_100_Trees"):
@@ -50,6 +54,8 @@ with mlflow.start_run(run_name="RF_100_Trees"):
     
     mlflow.log_param("n_estimators", n_est)
     mlflow.log_metric("MAE", mae_b)
-    mlflow.sklearn.log_model(rf_b, "model")
+    
+    # THE FIX here as well
+    mlflow.sklearn.log_model(sk_model=rf_b, name="model", serialization_format="pickle")
 
-logger.info("Done! Experiments logged. Run 'mlflow ui' in your terminal to view them.")
+logger.info("Done! Experiments logged successfully. Check your folder for the 'mlruns' directory.")
