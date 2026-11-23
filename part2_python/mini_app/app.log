@@ -1,1 +1,6 @@
+2026-11-23 10:34:22,755 - INFO - Command invoked: compare-weekend | Arguments: {'command': 'compare-weekend', 'date': None, 'threshold': 5000}
+2026-11-23 10:34:46,138 - INFO - Command invoked: query-date | Arguments: {'command': 'query-date', 'date': '2017-13-99', 'threshold': 5000}
+2026-11-23 10:34:46,177 - ERROR - Malformed date provided: 2017-13-99
+2026-11-23 10:36:36,873 - INFO - Command invoked: query-date | Arguments: {'command': 'query-date', 'date': '2017-05-15', 'threshold': 5000}
+2026-11-23 10:36:44,846 - INFO - Command invoked: high-traffic | Arguments: {'command': 'high-traffic', 'date': None, 'threshold': 6000}
 
