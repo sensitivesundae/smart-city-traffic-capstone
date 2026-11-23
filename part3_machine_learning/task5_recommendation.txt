@@ -1,1 +1,10 @@
+--- TRAFFIC RECOMMENDATION SYSTEM ---
 
+Scenario 1:
+For a weekday journey during clear weather, consider travelling between 02:00 AM and 05:00 AM, when historical traffic volumes are typically lower (average of 336 vehicles/hour).
+
+Scenario 2:
+For a weekend journey during rain weather, consider travelling between 03:00 AM and 06:00 AM, when historical traffic volumes are typically lower (average of 378 vehicles/hour).
+
+Scenario 3:
+For a weekday journey during current weather conditions, consider travelling between 02:00 AM and 05:00 AM, when historical traffic volumes are typically lower (average of 332 vehicles/hour).
