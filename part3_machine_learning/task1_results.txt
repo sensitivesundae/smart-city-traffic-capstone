@@ -1,3 +1,39 @@
+========================================
+CLASSIFICATION MODELS (Predicting High Risk)
+========================================
+
+Training Logistic Regression...
+--- Logistic Regression Metrics ---
+Accuracy:  0.9653
+Precision: 0.9109
+Recall:    0.9084
+F1-Score:  0.9096
+ROC AUC:   0.9919
+
+Training Random Forest Classifier...
+--- Random Forest Metrics ---
+Accuracy:  0.9802
+Precision: 0.9431
+Recall:    0.9547
+F1-Score:  0.9489
+ROC AUC:   0.9966
+
+========================================
+REGRESSION MODELS (Predicting Traffic Volume)
+========================================
+
+Training Linear Regression...
+--- Linear Regression Metrics ---
+MAE:  1748.99
+R-squared: -0.0014
+
+Training Random Forest Regressor...
+--- Random Forest Regressor Metrics ---
+MAE:  1811.24
+R-squared: -0.1218
+
+
+
 1. Classification Models (Predicting High Risk)
 Logistic Regression: 96.5% Accuracy, 0.9096 F1-Score
 
