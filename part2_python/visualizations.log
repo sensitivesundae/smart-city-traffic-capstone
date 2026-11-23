@@ -1,1 +1,7 @@
+2026-11-23 11:02:18,325 - INFO - Figure successfully saved: figures/traffic_by_hour.png
+2026-11-23 11:06:36,792 - INFO - Figure successfully saved: figures/traffic_by_hour.png
+2026-11-23 11:06:36,898 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-11-23 11:06:36,917 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-11-23 11:06:37,289 - INFO - Figure successfully saved: figures/weekday_vs_weekend.png
+2026-11-23 11:06:37,878 - INFO - Figure successfully saved: figures/weather_impact.png
 
