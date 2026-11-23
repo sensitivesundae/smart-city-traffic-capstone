@@ -1,1 +1,47 @@
+--- K-Means Clustering ---
 
+K-Means Cluster Centers (Interpretation):
+   hour  weather_severity  traffic_volume  count
+0  12.5              -0.0          5045.6  14127
+1   3.0               0.5           872.8  13766
+2  12.4               1.3          4601.2  10884
+3  20.9               0.3          2521.2   9427
+
+--- Association Rule Mining ---
+
+Top 5 Association Rules Predicting Congestion (Sorted by Lift):
+IF ['TimeCat_Morning_Rush', 'WeekendCat_Weekday', 'WeatherCat_Clear'] THEN ['Congestion_Congestion_Severe']
+   Support: 0.052, Confidence: 0.834, Lift: 3.338
+
+IF ['TimeCat_Morning_Rush', 'WeekendCat_Weekday'] THEN ['Congestion_Congestion_Severe']
+   Support: 0.100, Confidence: 0.822, Lift: 3.290
+
+IF ['TimeCat_Evening_Rush', 'WeekendCat_Weekday'] THEN ['Congestion_Congestion_Severe', 'WeatherCat_Clear']
+   Support: 0.056, Confidence: 0.477, Lift: 3.109
+
+IF ['TimeCat_Evening_Rush', 'WeekendCat_Weekday', 'WeatherCat_Clear'] THEN ['Congestion_Congestion_Severe']
+   Support: 0.056, Confidence: 0.743, Lift: 2.976
+
+IF ['TimeCat_Evening_Rush', 'WeekendCat_Weekday'] THEN ['Congestion_Congestion_Severe']
+   Support: 0.083, Confidence: 0.708, Lift: 2.836
+
+
+The K-Means algorithm (k=4) identified four distinct traffic profiles:
+
+Nighttime Lows (Cluster 1): Occurring around 3:00 AM, characterized by very low traffic volume (~872 vehicles) regardless of weather.
+
+Midday Clear (Cluster 0): Occurring around 12:30 PM, with high traffic volume (~5,045 vehicles) and clear weather.
+
+Midday Severe Weather (Cluster 2): Occurring around 12:30 PM, but with high weather severity. Traffic is slightly lower (~4,601) than clear mid-days, suggesting severe weather deters some daytime travel.
+
+Late Evening (Cluster 3): Occurring around 8:30 PM, with dropping traffic volumes (~2,521).
+Conclusion: Time of day is the most dominant factor separating the clusters.
+
+Task 2.2: Association Rule Mining Interpretation
+Using the Apriori algorithm, we mined rules predicting Severe Congestion. The rule with the highest Lift (3.338) was: IF it is a Weekday AND Morning Rush Hour AND Clear Weather, THEN Severe Congestion.
+
+Plain Language Meaning: If it is a clear morning on a weekday, you can expect severe traffic jams to occur 83.4% of the time (Confidence).
+
+Lift: The Lift of 3.338 means that this specific combination of time and weather makes severe congestion 3.3 times more likely than baseline probability.
+
+Overall Trend: Notably, "Clear" weather is a major antecedent in the top rules, while severe weather is absent. This strongly indicates that severe congestion is driven almost entirely by commuting schedules (weekday rush hours) rather than bad weather.
