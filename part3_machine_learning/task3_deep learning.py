@@ -1,3 +1,13 @@
+import logging
+import sys
+
+# Set up logger at the top of every script
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stdout)
+
+logger.info("Loading data...")
+logger.info("--- K-Means Clustering ---")
+
 import pandas as pd
 import numpy as np
 import tensorflow as tf
