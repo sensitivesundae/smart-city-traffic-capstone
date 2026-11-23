@@ -1,1 +1,26 @@
+1. Classification Models (Predicting High Risk)
+Logistic Regression: 96.5% Accuracy, 0.9096 F1-Score
 
+Random Forest: 98.0% Accuracy, 0.9489 F1-Score
+
+Interpretation:
+Both models performed exceptionally well, but the Random Forest slightly outperformed the baseline Logistic Regression across all metrics (Accuracy, Precision, Recall, F1, and ROC AUC). This indicates that the relationship between the features (weather, time) and the high_risk proxy label is somewhat complex and non-linear. The Random Forest was better able to capture these complex interactions (e.g., high risk only occurring when it is both rush hour and raining) compared to the simple straight-line decision boundary of Logistic Regression. The very high ROC AUC (0.9966) shows the model is excellent at distinguishing between high-risk and low-risk periods.
+
+2. Regression Models (Predicting Traffic Volume)
+Linear Regression: MAE 1748.99, R-squared -0.0014
+
+Random Forest: MAE 1811.24, R-squared -0.1218
+
+Interpretation:
+The regression models struggled significantly. An R-squared of -0.0014 (and -0.1218) means the models are performing worse than just predicting the average traffic volume for every single hour.
+
+Why did this happen? Traffic volume is extremely volatile and depends heavily on factors not present in this dataset (like accidents, roadwork, or holidays from other regions). While weather and time of day matter, a simple Random Forest using these static features cannot accurately predict the exact continuous volume. It just guesses the average for that time of day, and because traffic is so noisy, the error (MAE) is huge (~1,800 vehicles).
+
+
+Model Comparison and Evaluation
+
+Classification (High-Risk Prediction):
+The Random Forest Classifier outperformed the Logistic Regression baseline, achieving an Accuracy of 98.02% and an F1-Score of 94.89% (compared to 96.53% and 90.96% for Logistic Regression). The high ROC AUC (0.9966) indicates excellent discriminative ability. This suggests that tree-based ensemble methods are better suited for this task because they can capture the non-linear, conditional relationships between time, weather, and congestion risk (e.g., risk is only high when severe weather coincides with rush hour).
+
+Regression (Traffic Volume Prediction):
+Both Linear Regression and Random Forest Regressor performed poorly, yielding negative R-squared values (-0.0014 and -0.1218, respectively). This indicates that the chosen weather and cyclical time features are insufficient to predict exact continuous traffic volume. Traffic volume is highly volatile; predicting it accurately requires historical lag features (e.g., traffic volume from the previous hour or day), which were not included in this basic feature set. Therefore, the regression models are worse at predicting exact volume than simply predicting the mean volume.
