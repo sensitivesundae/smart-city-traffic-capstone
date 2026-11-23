@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="traffic data.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1259"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="traffic_data" custom_title="0" dock_id="2" table="4,12:maintraffic_data"/><dock_state state="000000ff00000000fd00000001000000020000016400000216fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000000001640000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011800ffffff000001640000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="Total yearly traffic volume">SELECT 
+    strftime('%Y', date_time) AS year, 
+    SUM(traffic_volume) AS total_yearly_volume
+FROM 
+    traffic_data
+WHERE 
+    strftime('%Y', date_time) BETWEEN '2012' AND '2017'
+GROUP BY 
+    year
+ORDER BY 
+    year;</sql><sql name="Traffic volume change">WITH YearlyTotals AS (
+    SELECT 
+        SUBSTR(date_time, 1, 4) AS year, 
+        SUM(traffic_volume) AS total_volume
+    FROM traffic_data
+    WHERE SUBSTR(date_time, 1, 4) BETWEEN '2012' AND '2017'
+    GROUP BY year
+)
+SELECT 
+    year,
+    total_volume,
+    LAG(total_volume) OVER (ORDER BY year) AS previous_year_volume,
+    total_volume - LAG(total_volume) OVER (ORDER BY year) AS change_in_volume
+FROM YearlyTotals
+ORDER BY year;</sql><sql name="Holiday trend">WITH HolidayData AS (
+    -- 1. Get New Year's Day Data
+    SELECT 
+        'New Year''s Day' AS holiday_name,
+        SUBSTR(date_time, 1, 4) AS year,
+        ROUND(AVG(temp), 2) AS avg_temp,
+        SUM(traffic_volume) AS total_daily_traffic
+    FROM traffic_data
+    WHERE date_time LIKE '%-01-01%'
+      AND SUBSTR(date_time, 1, 4) IN ('2015', '2016', '2017')
+    GROUP BY year
+    
+    UNION ALL
+    
+    -- 2. Get Labor Day Data
+    SELECT 
+        'Labor Day' AS holiday_name,
+        SUBSTR(date_time, 1, 4) AS year,
+        ROUND(AVG(temp), 2) AS avg_temp,
+        SUM(traffic_volume) AS total_daily_traffic
+    FROM traffic_data
+    WHERE holiday = 'Labor Day'
+      AND SUBSTR(date_time, 1, 4) IN ('2015', '2016', '2017')
+    GROUP BY year
+)
+-- 3. Calculate the year-on-year change for each holiday
+SELECT 
+    holiday_name,
+    year,
+    avg_temp,
+    LAG(avg_temp) OVER (PARTITION BY holiday_name ORDER BY year) AS prev_year_temp,
+    ROUND(avg_temp - LAG(avg_temp) OVER (PARTITION BY holiday_name ORDER BY year), 2) AS temp_change,
+    total_daily_traffic
+FROM HolidayData
+ORDER BY holiday_name DESC, year;</sql><sql name="Data trends">SELECT 
+    AVG(traffic_volume) AS mean,
+    MIN(traffic_volume) AS min_value,
+    MAX(traffic_volume) AS max_value,
+    MAX(traffic_volume) - MIN(traffic_volume) AS range
+FROM traffic_data;
+</sql><sql name="Data trend-median">SELECT AVG(traffic_volume) AS median
+FROM (
+    SELECT traffic_volume
+    FROM traffic_data
+    ORDER BY traffic_volume
+    LIMIT 2 - (SELECT COUNT(*) FROM traffic_data) % 2
+    OFFSET (SELECT (COUNT(*) - 1) / 2 FROM traffic_data)
+);</sql><sql name="Data trend-variance std dev">SELECT 
+    AVG((traffic_volume - (SELECT AVG(traffic_volume) FROM traffic_data)) * 
+        (traffic_volume - (SELECT AVG(traffic_volume) FROM traffic_data))) AS variance,
+    SQRT(AVG((traffic_volume - (SELECT AVG(traffic_volume) FROM traffic_data)) * 
+        (traffic_volume - (SELECT AVG(traffic_volume) FROM traffic_data)))) AS standard_deviation
+FROM traffic_data;</sql><sql name="Correlation analysis">WITH Stats AS (
+    SELECT 
+        AVG(temp) AS avg_temp, 
+        AVG(traffic_volume) AS avg_traffic
+    FROM traffic_data
+)
+SELECT 
+    ROUND(
+        SUM((temp - avg_temp) * (traffic_volume - avg_traffic)) / 
+        (SQRT(SUM((temp - avg_temp) * (temp - avg_temp))) * SQRT(SUM((traffic_volume - avg_traffic) * (traffic_volume - avg_traffic))))
+    , 4) AS correlation_coefficient
+FROM traffic_data, Stats;</sql><sql name="congestion">SELECT 
+    COUNT(*) AS total_rows,
+    
+    -- 3.1 Basic Counts
+    SUM(CASE WHEN traffic_volume &gt; 5500 THEN 1 ELSE 0 END) AS congestion_count,
+    SUM(CASE WHEN weather_main = 'Clear' THEN 1 ELSE 0 END) AS clear_weather_count,
+    SUM(CASE WHEN traffic_volume &gt; 5500 AND weather_main = 'Clear' THEN 1 ELSE 0 END) AS congestion_and_clear_count,
+    
+    -- 3.2 Conditional Counts
+    SUM(CASE WHEN traffic_volume &gt; 5500 AND temp &gt; 292 THEN 1 ELSE 0 END) AS congestion_and_hightemp_count,
+    
+    -- Odds Ratio Counts
+    SUM(CASE WHEN weather_main = 'Clouds' THEN 1 ELSE 0 END) AS cloudy_weather_count,
+    SUM(CASE WHEN traffic_volume &gt; 5500 AND weather_main = 'Clouds' THEN 1 ELSE 0 END) AS congestion_and_cloudy_count
+FROM traffic_data;
+FROM traffic_data;</sql><sql name="SQL 10*">WITH Counts AS (
+    SELECT 
+        COUNT(*) AS total,
+        SUM(CASE WHEN traffic_volume &gt; 5500 THEN 1 ELSE 0 END) AS cong,
+        SUM(CASE WHEN weather_main = 'Clear' THEN 1 ELSE 0 END) AS clear_weather,
+        SUM(CASE WHEN weather_main = 'Clouds' THEN 1 ELSE 0 END) AS cloudy_weather,
+        SUM(CASE WHEN traffic_volume &gt; 5500 AND weather_main = 'Clear' THEN 1 ELSE 0 END) AS cong_and_clear,
+        SUM(CASE WHEN traffic_volume &gt; 5500 AND weather_main = 'Clouds' THEN 1 ELSE 0 END) AS cong_and_cloudy,
+        SUM(CASE WHEN traffic_volume &gt; 5500 AND temp &gt; 292 THEN 1 ELSE 0 END) AS cong_and_hightemp
+    FROM traffic_data
+)
+SELECT 
+    -- 3.1 Basic Probabilities
+    ROUND(1.0 * cong / total, 4) AS P_Congestion,
+    ROUND(1.0 * clear_weather / total, 4) AS P_Clear_Weather,
+    ROUND(1.0 * cong_and_clear / total, 4) AS P_Congestion_AND_Clear,
+    
+    -- 3.2 Conditional Probabilities
+    ROUND(1.0 * cong_and_clear / cong, 4) AS P_Clear_given_Congestion,
+    ROUND(1.0 * cong_and_hightemp / cong, 4) AS P_HighTemp_given_Congestion,
+    
+    -- Independence Check (P(A) * P(B))
+    ROUND((1.0 * cong / total) * (1.0 * clear_weather / total), 4) AS Independence_Check,
+    
+    -- Odds Ratio (Clear vs Clouds)
+    ROUND(
+        (1.0 * cong_and_clear / NULLIF(clear_weather - cong_and_clear, 0)) / 
+        (1.0 * cong_and_cloudy / NULLIF(cloudy_weather - cong_and_cloudy, 0)), 
+    4) AS Odds_Ratio
+FROM Counts;</sql><current_tab id="8"/></tab_sql></sqlb_project>
