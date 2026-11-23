@@ -14,6 +14,14 @@ The target variable `traffic_category` is created using the following data-drive
 *   **High:** > 5,500 vehicles per hour
 
 ## Task 3: Visualisation Interpretations
+<img width="1000" height="500" alt="traffic_by_hour" src="https://github.com/user-attachments/assets/5a4091d0-08f2-47cc-ae06-14d35660526b" />
+
 1. **Traffic demand by hour:** Traffic volume follows a bimodal (two-peak) pattern, sharply rising around 7-8 AM and again at 4-5 PM, which perfectly aligns with standard morning and evening commuting hours. Volume drops to its lowest between midnight and 4 AM.
+
+<img width="800" height="500" alt="weekday_vs_weekend" src="https://github.com/user-attachments/assets/f357c602-2e5b-4c27-a45d-4179a45e01f5" />
+
 2. **Weekday vs. weekend traffic:** Weekdays have a significantly higher average traffic volume than weekends. This confirms that the primary driver of traffic in this dataset is work-related commuting rather than leisure travel.
+
+<img width="1000" height="500" alt="weather_impact" src="https://github.com/user-attachments/assets/fadcaa46-294f-4a2d-948b-82fa31f49477" />
+
 3. **Weather vs. traffic:** There is no strong linear relationship. However, the highest traffic volumes cluster around mild weather (cloudy, haze). Extreme weather (squall and fog) tends to have lower traffic, likely due to travel disruptions or people staying home.
