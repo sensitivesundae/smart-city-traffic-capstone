@@ -1,1 +1,9 @@
+Task 4: Advanced AI Technique – MLflow for Experiment Tracking
 
+Why selected: MLflow was selected because it directly supports the MLOps lifecycle. It allows data scientists to track experiments, package models, and reproduce results, solving the common problem of "which model version did we actually deploy?"
+
+How it was implemented: The mlflow Python library was integrated into the model training script. Using mlflow.start_run(), two separate Random Forest Regressor models were trained (one with 50 estimators and one with 100). Hyperparameters (number of trees), evaluation metrics (MAE), and the serialized model artifacts themselves were logged locally to the MLflow tracking server.
+
+What value it adds: It provides reproducibility and transparency. Instead of manually writing down model scores in a notebook, MLflow automatically records every parameter and metric. It allows data scientists to easily compare runs in a UI dashboard to select the best model before deployment. It also versions the models, meaning we can roll back to an older model if a new one underperforms in production.
+
+Limitations: MLflow's default local setup stores data on the local file system, which does not support team collaboration. To share experiments across the Finorg Bank team, a remote tracking server (e.g., AWS S3 or a database) must be configured. Additionally, it requires modifying the core training code, which adds slight overhead for quick, ad-hoc scripts.
