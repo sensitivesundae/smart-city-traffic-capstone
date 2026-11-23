@@ -1,3 +1,7 @@
+import logging
+import sys
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', stream=sys.stdout)
 import pandas as pd
 
 def get_travel_recommendation(df, is_weekend, weather_condition):
